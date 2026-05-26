@@ -1,4 +1,4 @@
-# Al-Based-Water-Demand-Forecasting-for-Campus-Operations
+# Al-Based-Water-Demand-Forecasting-for-Campus-Operations 
 
 I had a wonderful opportunity to create a sustainable solution as an internship project for 1B1M. I  was also selected in top 30 Best performers. While working solo and I have learnt a lot about time management and overall the support and guidance from the mentors helped me a lot. Despite the initial hurdle of not having access to real campus data, I learned how to generate realistic synthetic data that captured seasonal, weekly, and weather‑driven patterns.
 
