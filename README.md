@@ -52,5 +52,5 @@ The notebook will:
 ├── Project Submission Template.pdf                                 # Internship submission
 ├── 1B1M project report.docx                                        # Detailed project report
 └── README.md                                                       # This file
-└── Info
+└── Info                                                            # Additional Summary
 ```
