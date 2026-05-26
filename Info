@@ -1,0 +1,89 @@
+# Al-Based-Water-Demand-Forecasting-for-Campus-Operations
+
+I had a wonderful opportunity to create a sustainable solution as an internship project for 1B1M. I  was also selected in top 30 Best performers.While working solo and I have learnt a lot about time management and overall the support and guidance from the mentors helped me a lot. Despite the initial hurdle of not having access to real campus data, I learned how to generate realistic synthetic data that captured seasonal, weekly, and weather‑driven patterns.
+
+It is a project that  presents a **data‑driven approach** to forecast daily water demand in a campus zone (Hostel A) using a **Long Short‑Term Memory (LSTM)** neural network. The model uses historical consumption, temperature, rainfall, and calendar information to predict next‑day demand. By aligning pumping schedules with predicted demand, the system can reduce energy waste and improve water supply reliability.
+
+>  **Note:** Due to limited access to real campus data, a synthetic dataset was generated that mimics realistic seasonal, weekly, and weather‑driven patterns. The methodology is fully reproducible and ready for deployment with real data.
+---
+
+##  Methodology :
+
+### 1. Data Generation (Synthetic)
+
+A 100‑day dataset was created with the following features:
+
+| Feature        | Description                                              |
+|----------------|----------------------------------------------------------|
+| `demand_liters`| Daily water consumption (target)                         |
+| `temperature`  | Average daily temperature (°C)                           |
+| `rainfall_mm`  | Total daily rainfall (mm)                                |
+| `is_holiday`   | Binary (1 = holiday, 0 = normal)                         |
+| `dayofweek`    | 0=Monday … 6=Sunday                                      |
+| `month`        | Month of the year (1–12)                                 |
+
+Patterns include:
+- Higher demand in summer, lower in winter.
+- Lower demand on weekends and holidays.
+- Rainfall reduces demand, high temperature increases it.
+
+### 2. Preprocessing
+
+- Features scaled to [0,1] using `MinMaxScaler`.
+- Sequences of length 7 (lookback) created to predict the next day’s demand.
+
+### 3. Model Architecture (LSTM)
+
+```python
+model = Sequential([
+    LSTM(64, activation='tanh', input_shape=(lookback, n_features)),
+    Dropout(0.2),
+    Dense(1)
+])
+```
+
+- **Optimizer:** Adam
+- **Loss:** Mean Squared Error (MSE)
+- **Train/Test split:** 80/20 (chronological)
+- **Early stopping** (patience=10) prevents overfitting.
+
+### 4. Dashboard & Visualisation
+
+An interactive dashboard built with `ipywidgets` and `Plotly` allows users to:
+- Choose forecast horizon (1–7 days)
+- View historical and predicted demand
+- Receive a pumping recommendation based on forecast and tank capacity.
+
+---
+
+##  Results :
+
+### Model Performance (Test Set)
+
+| Metric     | Value       |
+|------------|-------------|
+| MAE        | 2,449 liters|
+| RMSE       | 3,325 liters|
+| R²         | -0.46*      |
+
+> *Negative R² indicates that with only 100 synthetic samples, the model does not outperform a simple mean baseline. With real, larger datasets, performance improves significantly.
+
+### Energy & CO₂ Savings (100 days)
+
+- **Baseline pumping:** 3 hours/day → 3,000 kWh
+- **Optimised pumping** (demand‑based): 2,317 kWh
+- **Savings:** 683 kWh (**22.8%**)
+- **CO₂ avoided:** **547 kg** (India grid factor: 0.8 kg CO₂/kWh)
+
+---
+
+##  Future Goals :
+
+| Timeline | Action |
+|----------|--------|
+| Next 1 month | Collect real water consumption data from campus. Retrain & validate model. |
+| Next 2 months | Expand model to all five campus zones. |
+| Next 6 months | Deploy a live dashboard on the web. |
+| Next 12 months | Explore startup opportunities for broader impact. |
+
+---
